@@ -11,16 +11,11 @@ import {
     Text,
     View,
     NativeModules,
+    Navigator,
 } from 'react-native';
+import Wrapper from "./app/component/Wrapper";
+import StackNavigator from 'react-navigation'
 
-import TraAssistant from './app/component/TraAssistant';
-
-const instructions = Platform.select({
-    ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-    android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
 export default class App extends Component<{}> {
 
@@ -30,9 +25,10 @@ export default class App extends Component<{}> {
 
     render() {
         return (
-            <View style={{backgroundColor: Platform.OS === "ios" ? "#000" : "#3587ff", flex: 1}}>
-                <TraAssistant/>
-            </View>
+            <StackNavigator
+                initialRoute={{component: Wrapper}}
+                configureScene={() => Navigator.SceneConfig}
+            />
         );
     }
 }

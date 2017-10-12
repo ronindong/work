@@ -5,16 +5,18 @@ import {
     Text, ActivityIndicator,
     Button, TouchableHighlight,
     NativeModules, StatusBar,
-    RefreshControl,
+    RefreshControl, Platform,
 } from 'react-native'
 
 import styles from '../style/Styles';
 import Utils from '../util/utils';
+import Const from '../util/Const';
+import NavBar from './NavBar';
 
-const HTTP_MOVIE_URL = 'http://api.douban.com/v2/movie/top250';
 let ds = new ListView.DataSource({
     rowHasChanged: (row1, row2) => row1 !== row2
 });
+let isIOS = Platform.OS === 'ios';
 
 class TraAssistant extends Component {
 
@@ -30,7 +32,7 @@ class TraAssistant extends Component {
     }
 
     componentDidMount() {
-        Utils.get(HTTP_MOVIE_URL, (result) => {
+        Utils.get(Const.HTTP_MOVIE_URL, (result) => {
             this.setState({
                 dataList: ds.cloneWithRows(result.subjects),
                 loading: false,
@@ -38,14 +40,22 @@ class TraAssistant extends Component {
         });
     }
 
+    onBackFinish(){
+
+    }
 
     render() {
         return (
             <View style={{flex: 1}}>
                 <StatusBar
-                    backgroundColor={'#3587ff'}
+                    backgroundColor={Const.BACKGROUND_COLOR}
                     barStyle="light-content"
                 />
+                <NavBar
+                    title={'行程小助手'}
+                    leftIcon={'md-arrow-back'}
+                leftPress={this.onBackFinish.bind(this)}/>
+
                 {this.state.loading ?
                     <View style={[styles.container, {flexDirection: 'row', justifyContent: 'center'}]}>
                         <ActivityIndicator style={{alignItems: 'center'}}
@@ -68,7 +78,9 @@ class TraAssistant extends Component {
     }
 
     _onRefreshLoad() {
-        NativeModules.RNMessageModule.handlerMessage('onRefreshLoad');
+        if (!isIOS) {
+            NativeModules.RNMessageModule.handlerMessage('onRefreshLoad');
+        }
     }
 
     _renderFooter() {
@@ -82,7 +94,9 @@ class TraAssistant extends Component {
     }
 
     _onEndReached() {
-        NativeModules.RNMessageModule.handlerMessage('onEndReached');
+        if (!isIOS) {
+            NativeModules.RNMessageModule.handlerMessage('onEndReached');
+        }
 
         if (this.isFirst) {
             if (!this.state.isShowBottomRefresh) {
