@@ -56,6 +56,12 @@ const styles = StyleSheet.create({
         color: '#333333',
         marginBottom: 5,
     },
+    btnStyle: {
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 

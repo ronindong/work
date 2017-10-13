@@ -5,7 +5,10 @@ import {Platform} from 'react-native';
 const isIos = Platform.OS === 'ios';
 export default class Const extends Component {
 
+
+
     static BACKGROUND_COLOR = '#3587ff';
+    static BAR_HEIGHT = Platform.OS === 'ios' ? 60 : 40;
 
     static ROOT_ADDRESS_DEV = 'http://172.16.8.111:8082';
     static ROOT_ADDRESS_TEST = '';

@@ -15,10 +15,13 @@ import java.util.List;
 
 public class RNPackage implements ReactPackage {
 
+    public RNMessageModule rnMessageModule;
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new RNMessageModule(reactContext));
+        rnMessageModule = new RNMessageModule(reactContext);
+        modules.add(rnMessageModule);
         return modules;
     }
 

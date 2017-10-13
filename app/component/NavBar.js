@@ -12,7 +12,7 @@ import Icons from 'react-native-vector-icons/Ionicons';
 
 export default class NavBar extends Component {
 
-    static navBarHeight = Platform.OS === 'ios' ? 60 : 40;
+    static navBarHeight = Const.BAR_HEIGHT;
     static propTypes = {
         title: PropTypes.string.isRequired,
         leftIcon: PropTypes.string,
