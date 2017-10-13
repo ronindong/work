@@ -215,6 +215,9 @@ class TraAssistant extends Component {
             renderSectionHeader={this._sectionComp}
             renderItem={this._renderSectionListItem}
             sections={sections}
+            stickySectionHeaderEnabled={true}
+
+
             ItemSeparatorComponent={() => <View style={{
                 backgroundColor: '#e8e6f4',
                 height: 1

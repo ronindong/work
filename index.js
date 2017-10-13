@@ -15,6 +15,8 @@ const work = StackNavigator({
         initialRouteName: 'Home',
         navigationOptions: {
             headerTitle: '行程小助手',
+            // headerLeft: <Icons style={{alignItems: 'flex-end'}}
+            //                    name='md-add' size={30} color={Const.BACKGROUND_COLOR}/>,
             headerTitleStyle: {
                 alignSelf: 'center',
                 color: '#fff',
@@ -22,8 +24,6 @@ const work = StackNavigator({
 
             },
             headerStyle: {
-                // headerLeft: <Icons style={{alignItems: 'flex-end'}}
-                //                    name='md-add' size={30} color={Const.BACKGROUND_COLOR}/>,
                 backgroundColor: Const.BACKGROUND_COLOR,
                 height: Const.BAR_HEIGHT,
             },
