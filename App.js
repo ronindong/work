@@ -26,6 +26,8 @@ export default class App extends Component<{}> {
         });
         DeviceEventEmitter.addListener("AndroidToRNMessage", this._handleAndroidMessage)
         this._testPromise();
+        const { navigate } = this.props.navigation;
+        console.log("navigate:"+navigate)
     }
 
     _handleAndroidMessage(message) {
@@ -43,8 +45,8 @@ export default class App extends Component<{}> {
 
     render() {
         return (
-            <View style={{backgroundColor: Platform.OS === "ios" ? "#000" : Const.BACKGROUND_COLOR, flex: 1}}>
-                <TraAssistant/>
+            <View style={{backgroundColor: Platform.OS === "ios" ? "#000" : Const.TITLE_BAR_BG_COLOR, flex: 1}}>
+                <TraAssistant />
             </View>
         );
     }

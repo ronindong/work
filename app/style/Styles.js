@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'flex-start',
         // alignItems: 'flex-end',
-        backgroundColor: '#a5aCFF',
+        backgroundColor: '#e9f3ff',
         // padding: 3,
         // marginTop: 20,
         borderWidth: 1,
@@ -42,6 +42,19 @@ const styles = StyleSheet.create({
         shadowOffset: {
             height: 1, width: 0
         }
+
+
+    },
+    addTraContainer: {
+        // justifyContent: 'flex-start',
+        // alignItems: 'flex-end',
+        backgroundColor: '#fff',
+        // padding: 3,
+        // marginTop: 20,
+        borderWidth: 0,
+        borderRadius: 20,
+        borderColor:'#fff',
+        margin: 15,
 
 
     },

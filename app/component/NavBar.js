@@ -82,7 +82,7 @@ export default class NavBar extends Component {
 const styles = StyleSheet.create({
     navBarStyle: {
         height: NavBar.navBarHeight,
-        backgroundColor: Const.BACKGROUND_COLOR,
+        backgroundColor: Const.TITLE_BAR_BG_COLOR,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

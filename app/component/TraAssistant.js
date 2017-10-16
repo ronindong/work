@@ -8,7 +8,7 @@ import {
     Image, TouchableOpacity,
     TouchableNativeFeedback,
     Text, ActivityIndicator,
-    Button, TouchableHighlight,
+    TouchableHighlight,
     NativeModules, StatusBar,
     RefreshControl, Platform,
 } from 'react-native'
@@ -25,6 +25,15 @@ let ds = new ListView.DataSource({
 let isIOS = Platform.OS === 'ios';
 
 class TraAssistant extends Component {
+
+    static navigationOptions = {
+        headerTitle: '行程小助手',
+        headerLeft: <Icons style={{paddingLeft: 10,}}
+                           name='ios-arrow-back' size={30} color='#fff'/>,
+        headerRight: <Icons style={{paddingRight: 10, opacity: 0}}
+                            name='ios-arrow-back' color='#fff'/>,
+
+    };
 
     constructor(props) {
         super(props);
@@ -80,10 +89,11 @@ class TraAssistant extends Component {
                 ]
             },
         ];
+        // const { navigate } = this.props.navigation;
         return (
             <View style={{flex: 1}}>
                 <StatusBar
-                    backgroundColor={Const.BACKGROUND_COLOR}
+                    backgroundColor={Const.TITLE_BAR_BG_COLOR}
                     barStyle="light-content"
                 />
                 {/*           <NavBar
@@ -118,41 +128,44 @@ class TraAssistant extends Component {
     }
 
 
-    _renderSectionListItem = (info) => {
+    _renderSectionListItem(info) {
         let {name, addrContent, dateTime} = info.item;
-        return <View style={{backgroundColor: '#fff', flex: 1, flexDirection: 'row'}}>
-            <View style={{justifyContent: 'center', width: 100}}><Text
-                style={{
-                    alignSelf: 'flex-start',
-                    paddingLeft: 10,
-                    textAlignVertical: 'center',
-                    backgroundColor: "#ffffff",
-                    color: '#5C5C5C',
-                    fontWeight: 'bold',
-                    fontSize: 20
-                }}>{name}</Text></View>
 
-
-            <View style={{flex: 2}}>
-                <Text
+        return Const.applyTouch({
+            viewLayout: <View style={{backgroundColor: '#fff', flexDirection: 'row'}}>
+                <View style={{flex: 1, justifyContent: 'center', width: 100}}><Text
                     style={{
-                        padding: 5,
+                        alignSelf: 'flex-start',
+                        paddingLeft: 10,
                         textAlignVertical: 'center',
-                        backgroundColor: "#ffffff",
                         color: '#5C5C5C',
                         fontWeight: 'bold',
-                        fontSize: 18
-                    }}>{addrContent}</Text>
-                <Text
-                    style={{
-                        padding: 5,
-                        textAlignVertical: 'center',
-                        backgroundColor: "#ffffff",
-                        color: '#b6b6b6',
-                        fontSize: 14
-                    }}>{dateTime}</Text>
-            </View>
-        </View>
+                        fontSize: 20
+                    }}>{name}</Text></View>
+
+
+                <View style={{flex: 2}}>
+                    <Text
+                        style={{
+                            padding: 5,
+                            textAlignVertical: 'center',
+                            color: '#5C5C5C',
+                            fontWeight: 'bold',
+                            fontSize: 18
+                        }}>{addrContent}</Text>
+                    <Text
+                        style={{
+                            padding: 5,
+                            textAlignVertical: 'center',
+                            color: '#b6b6b6',
+                            fontSize: 14
+                        }}>{dateTime}</Text>
+                </View>
+            </View>,
+            onPress: () => {
+                console.log("item press...")
+            },
+        });
 
     }
 
@@ -174,22 +187,33 @@ class TraAssistant extends Component {
                         style={{
                             textAlign: 'center',
                             textAlignVertical: 'center',
-                            color: Const.BACKGROUND_COLOR,
+                            color: Const.TITLE_BAR_BG_COLOR,
                             fontSize: 20
                         }}>{week}</Text>
                     <Text
                         style={{
                             textAlign: 'center',
                             textAlignVertical: 'center',
-                            color: Const.BACKGROUND_COLOR,
+                            color: Const.TITLE_BAR_BG_COLOR,
                             marginLeft: 10,
                             fontSize: 15
                         }}>{date}</Text>
                 </View>
-                <Icons style={{alignItems: 'flex-end'}}
-                       name='md-add' size={30} color={Const.BACKGROUND_COLOR}/>
+                {
+                    Const.applyTouch({
+                        viewLayout:
+                            <Icons name='md-add' size={30} color={Const.TITLE_BAR_BG_COLOR}
+                                   onPress={this._onPressAdd.bind(this)}/>,
+                        touchStyle: {alignItems: 'flex-end', paddingLeft: 10, paddingRight: 10},
+                    })}
+
             </View>
         );
+    }
+
+    _onPressAdd() {
+        const {navigate} = this.props.navigation;
+        navigate('AddTravel')
     }
 
     _renderAddBtn() {
@@ -212,7 +236,7 @@ class TraAssistant extends Component {
 
     _renderSectionList(sections) {
         return (<SectionList
-            renderSectionHeader={this._sectionComp}
+            renderSectionHeader={this._sectionComp.bind(this)}
             renderItem={this._renderSectionListItem}
             sections={sections}
             stickySectionHeaderEnabled={true}
