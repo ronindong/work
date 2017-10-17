@@ -9,12 +9,21 @@ import Const from '../util/Const';
 import Icons from 'react-native-vector-icons/Ionicons';
 
 let _self;
+let navigation;
 
 class AddTravel extends Component {
 
     constructor(props) {
         super(props);
         _self = this;
+        navigation = this.props.navigation;
+    }
+
+    componentDidMount() {
+        console.log("tips:"+navigation.state.params.tips);
+
+
+
     }
 
 
@@ -44,9 +53,9 @@ class AddTravel extends Component {
         return (
             <View>
                 <ScrollView style={styles.addTraContainer}>
-                    <Item label='出发时间' placeHolder='出发时间'/>
-                    <Item label='返程时间' placeHolder='返程时间'/>
-                    <Item label='出行人' placeHolder='出行人'/>
+                    <Item label='出发时间' placeholder='出发时间'/>
+                    <Item label='返程时间' placeholder='返程时间'/>
+                    <Item label='出行人' placeholder='出行人'/>
                 </ScrollView>
             </View>
         );
@@ -62,7 +71,7 @@ class Item extends Component {
 
     static propTypes = {
         label: PropTypes.string,
-        placeHolder: PropTypes.string,
+        placeholder: PropTypes.string,
 
     };
 
@@ -83,7 +92,7 @@ class Item extends Component {
 
                     <View style={{flex: 2}}>
                         <TextInput
-                            placeholder={this.props.placeHolder}
+                            placeholder={this.props.placeholder}
 
                             style={{
                                 padding: 5,

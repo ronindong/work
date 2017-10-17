@@ -18,14 +18,19 @@ export default class Const extends Component {
     static HTTP_MOVIE_URL = isIos ? 'https://api.douban.com/v2/movie/top250'
         : 'http://api.douban.com/v2/movie/top250';
 
+
     static applyTouch(obj) {
-        const {viewLayout, onPress,touchStyle} = obj;
+        const {viewLayout, onPress, touchStyle} = obj;
         if (Platform.OS === 'ios') {
             return (<TouchableOpacity activeOpacity={0.9} onPress={onPress} style={touchStyle}>
                 {viewLayout}
             </TouchableOpacity>);
         } else {
-            return <TouchableNativeFeedback activeOpacity={0.9} onPress={onPress} style={touchStyle}>
+            return <TouchableNativeFeedback
+                activeOpacity={0.9}
+                longPre
+                onPress={onPress}
+                style={touchStyle}>
                 {viewLayout}
             </TouchableNativeFeedback>
         }

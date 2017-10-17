@@ -41,8 +41,14 @@ class TraAssistant extends Component {
         this.state = {
             dataList: ds.cloneWithRows([]),
             loading: true,
-            isShowBottomRefresh: false,
+            isShowFooterLoad: false,
+            isShowHeaderRefresh: true,
         };
+        setTimeout(() => {
+            this.setState({
+                isShowHeaderRefresh: false,
+            });
+        }, 2000);
     }
 
     componentDidMount() {
@@ -118,7 +124,7 @@ class TraAssistant extends Component {
         return (<FlatList
             refreshControl={<RefreshControl
                 refreshing={false}
-                onRefresh={this._onRefreshLoad}
+                onRefresh={this._onRefresh.bind(this)}
             />}
             dataSource={this.state.dataList}
             renderRow={this._renderItem.bind(this)}
@@ -162,11 +168,14 @@ class TraAssistant extends Component {
                         }}>{dateTime}</Text>
                 </View>
             </View>,
-            onPress: () => {
-                console.log("item press...")
-            },
+            onPress: this._onItemPress.bind(this),
         });
 
+    }
+
+
+    _onItemPress(){
+        console.log('item press...')
     }
 
     _sectionComp(info) {
@@ -202,9 +211,10 @@ class TraAssistant extends Component {
                 {
                     Const.applyTouch({
                         viewLayout:
-                            <Icons name='md-add' size={30} color={Const.TITLE_BAR_BG_COLOR}
-                                   onPress={this._onPressAdd.bind(this)}/>,
+                            <Icons name='md-add' size={30} color={Const.TITLE_BAR_BG_COLOR} />,
+                        onPress:this._onPressAdd.bind(this),
                         touchStyle: {alignItems: 'flex-end', paddingLeft: 10, paddingRight: 10},
+
                     })}
 
             </View>
@@ -213,7 +223,7 @@ class TraAssistant extends Component {
 
     _onPressAdd() {
         const {navigate} = this.props.navigation;
-        navigate('AddTravel')
+        navigate('AddTravel',{tips:'Add Travel'})
     }
 
     _renderAddBtn() {
@@ -235,30 +245,28 @@ class TraAssistant extends Component {
 
 
     _renderSectionList(sections) {
-        return (<SectionList
+        return <SectionList
             renderSectionHeader={this._sectionComp.bind(this)}
-            renderItem={this._renderSectionListItem}
+            renderItem={this._renderSectionListItem.bind(this)}
             sections={sections}
             stickySectionHeaderEnabled={true}
-
-
+            refreshing={false}
+            onRefresh={this._onRefresh.bind(this)}
+            onEndReached={this._onEndReached.bind(this)}
             ItemSeparatorComponent={() => <View style={{
                 backgroundColor: '#e8e6f4',
                 height: 1
             }}><Text/></View>}
-            ListHeaderComponent={() =>
-                <View/>
-            }
-            ListFooterComponent={() =>
-                <View/>
-            }/>);
+            ListHeaderComponent={this._renderHeader.bind(this)}
+            ListFooterComponent={this._renderFooter.bind(this)}/>;
     }
+
 
     _renderListView() {
         return (<ListView
             refreshControl={<RefreshControl
                 refreshing={false}
-                onRefresh={this._onRefreshLoad}
+                onRefresh={this._onRefresh}
             />}
             dataSource={this.state.dataList}
             renderRow={this._renderItem.bind(this)}
@@ -268,14 +276,33 @@ class TraAssistant extends Component {
 
     }
 
-    _onRefreshLoad() {
+    //下拉刷新
+    _onRefresh() {
         if (!isIOS) {
             NativeModules.RNMessageModule.handlerMessage('onRefreshLoad');
         }
+        this.setState({
+            isShowHeaderRefresh: true,
+        });
+        setTimeout(() => {
+            this.setState({
+                isShowHeaderRefresh: false,
+            });
+        }, 2000);
+    }
+
+    _renderHeader() {
+        if (this.state && this.state.isShowHeaderRefresh) {
+            return (<View style={[{flex: 1, flexDirection: 'row', justifyContent: 'center'}]}>
+                <ActivityIndicator style={{alignItems: 'center'}}/>
+                <Text style={{alignSelf: 'center'}}>加载中...</Text>
+            </View>);
+        }
+        return null;
     }
 
     _renderFooter() {
-        if (this.state && this.state.isShowBottomRefresh) {
+        if (this.state && this.state.isShowHeaderRefresh) {
             return (<View style={[{flex: 1, flexDirection: 'row', justifyContent: 'center'}]}>
                 <ActivityIndicator style={{alignItems: 'center'}}/>
                 <Text style={{alignSelf: 'center'}}>加载中...</Text>
@@ -286,11 +313,11 @@ class TraAssistant extends Component {
 
     _onEndReached() {
         if (!isIOS) {
-            NativeModules.RNMessageModule.handlerMessage('onEndReached');
+            // NativeModules.RNMessageModule.handlerMessage('onEndReached');
         }
 
         if (this.isFirst) {
-            if (!this.state.isShowBottomRefresh) {
+            if (!this.state.isShowFooterLoad) {
                 this.isFirst = false;
             }
             return;
