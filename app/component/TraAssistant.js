@@ -314,7 +314,7 @@ class TraAssistant extends Component {
 
     _onEndReached() {
         if (!isIOS) {
-            // NativeModules.RNMessageModule.handlerMessage('onEndReached');
+            NativeModules.RNMessageModule.handlerMessage('onEndReached');
         }
 
         if (this.isFirst) {
