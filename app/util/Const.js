@@ -10,11 +10,6 @@ export default class Const extends Component {
     static PAGE_BG_COLOR = '#e9f3ff';
     static BAR_HEIGHT = Platform.OS === 'ios' ? 60 : 40;
 
-    static ROOT_ADDRESS_DEV = 'http://172.16.8.111:8082';
-    static ROOT_ADDRESS_TEST = '';
-    static ROOT_ADDRESS_RELEASE = '';
-
-    static HTTP_LOGIN_URL = '/cig_DataInterface_web/interface/indexController/userLogin';
     static HTTP_MOVIE_URL = isIos ? 'https://api.douban.com/v2/movie/top250'
         : 'http://api.douban.com/v2/movie/top250';
 
